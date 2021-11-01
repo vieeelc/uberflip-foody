@@ -48,5 +48,6 @@ export class FoodsController {
   @HttpCode(204)
   async remove(@Param('id') id: number) {
     await this.foodsService.remove(id);
+    return `${id} Deleted Successfully`
   }
 }
