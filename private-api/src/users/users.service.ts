@@ -58,7 +58,13 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOneOrFail(id);
+    return this.usersRepository.findOneOrFail(id)
+    .catch(err => {
+      console.log("ERR", err)
+      if (err.name == 'EntityNotFound') {
+        throw new HttpException(`User ID ${id} Not Found`, 404)
+      }
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
