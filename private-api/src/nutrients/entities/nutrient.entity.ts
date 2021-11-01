@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { FoodNutrient } from '../../food-nutrients/entities/food-nutrient.entity';
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'nutrients' })
 export class Nutrient extends BaseEntity {
@@ -16,4 +17,7 @@ export class Nutrient extends BaseEntity {
 
   @Column('decimal', { precision: 6, scale: 1, name: 'nutrient_code' })
   nutrientCode!: number;
+
+  @ManyToOne(() => FoodNutrient, (foodNutrient) => foodNutrient.nutrientId)
+  foodNutrients: FoodNutrient[];
 }

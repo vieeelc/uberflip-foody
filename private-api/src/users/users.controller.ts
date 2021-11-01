@@ -23,6 +23,11 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get(':id/reports/most-consumed-nutrient')
+  mostConsumedNutrient(@Param('id') id: number) {
+    return this.usersService.findMostConsumedNutrient(id);
+  }
+
   @Get()
   findAll(@Query('page') page: number, @Query('limit') limit: number) {
     const { skip, take } = PaginationHelper.getSkipTake(page, limit);

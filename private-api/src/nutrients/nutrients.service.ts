@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateNutrientDto } from './dto/create-nutrient.dto';
 import { UpdateNutrientDto } from './dto/update-nutrient.dto';
+import { Nutrient } from './entities/nutrient.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class NutrientsService {
+  constructor(
+    @InjectRepository(Nutrient)
+    private nutrientsRepository: Repository<Nutrient>
+  ) {}
+
   create(createNutrientDto: CreateNutrientDto) {
     return 'This action adds a new nutrient';
   }
 
   findAll() {
-    return `This action returns all nutrients`;
+    return this.nutrientsRepository.find();
   }
 
   findOne(id: number) {

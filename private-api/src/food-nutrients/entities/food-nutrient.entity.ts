@@ -1,4 +1,6 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Food } from '../../foods/entities/food.entity';
+import { Nutrient } from '../../nutrients/entities/nutrient.entity';
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'food_nutrients' })
 export class FoodNutrient extends BaseEntity {
@@ -19,4 +21,12 @@ export class FoodNutrient extends BaseEntity {
 
   @Column('varchar', { length: 255, name: 'footnote' })
   footnote: string;
+
+  @OneToMany(() => Food, (food) => food.foodNutrients)
+  @JoinColumn({ name: 'food_id'})
+  food: Food;
+
+  @ManyToOne(() => Nutrient, (nutrient) => nutrient.foodNutrients)
+  @JoinColumn({ name: 'nutrient_id'})
+  nutrient: Nutrient;
 }
