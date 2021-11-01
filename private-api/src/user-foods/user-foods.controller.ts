@@ -7,6 +7,7 @@ import {
   Put,
   HttpCode,
   Query,
+  HttpException,
 } from '@nestjs/common';
 import { UserFoodsService } from './user-foods.service';
 import { PaginationHelper } from '../../libs/pagination-helper';
@@ -23,7 +24,12 @@ export class UserFoodsController {
     @Query('limit') limit: number,
   ) {
     const { skip, take } = PaginationHelper.getSkipTake(page, limit);
-    return this.userFoodsService.findFoods(userId, skip, take);
+    return this.userFoodsService.findFoods(userId, skip, take)
+      .catch(err => {
+        if (err.name = 'EntityNotFound') {
+          throw new HttpException(`User ID ${userId} Not Found`, 404)
+        }
+      });
   }
 
   @Get(':foodId')
